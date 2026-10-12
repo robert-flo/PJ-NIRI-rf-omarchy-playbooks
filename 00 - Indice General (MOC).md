@@ -39,6 +39,7 @@ flowchart TD
         A["01.0 Sudo sin Contraseña"] --> B["01.1 Paso 1: niri-edge & key-cli"]
         B --> C["01.2 Paso 2: Usuario & SDDM"]
         C --> D["01.3 Paso 3: Clavis Shell"]
+        C -.-> P["01.4 Sesión Herald OS en SDDM"]
     end
 
     subgraph Fase2["02 - Personalización y Apariencia"]
@@ -80,7 +81,8 @@ niri-omarchy-playbooks/
 │   ├── 01.0 - Sudo sin Contrasena (Passwordless Sudo).md
 │   ├── 01.1 - Paso 1 - Instalacion de niri-edge y key-cli.md
 │   ├── 01.2 - Paso 2 - Creacion de Usuario y Login SDDM.md
-│   └── 01.3 - Paso 3 - Clavis Shell y Actualizaciones.md
+│   ├── 01.3 - Paso 3 - Clavis Shell y Actualizaciones.md
+│   └── 01.4 - Sesion Herald OS en SDDM.md
 ├── 02 - Personalizacion y Apariencia/                 # 🎨 Módulo 2: Temas, estilos y aplicaciones
 │   ├── 02.1 - MacTahoe Iconos, Cursor y Wallpapers.md
 │   ├── 02.2 - Replicacion de Aplicaciones y Entorno Clavis.md
@@ -96,7 +98,9 @@ niri-omarchy-playbooks/
 │   ├── 05.1 - Mapa Completo de Atajos de Teclado (Niri y Clavis).md
 │   ├── 05.2 - Repositorios Upstream y Fuentes Externas.md
 │   └── 05.3 - Guia de Descarga e Integracion de Video (Showcase).md
-└── assets/                                            # 🎬 Videos integrados
+└── assets/                                            # 🎬 Videos integrados y parches locales
+    ├── patches/
+    │   └── key-cli-clipboard-daemon.patch             # Añade `key clipboard --daemon` (ver 01.1)
     ├── m2-res_1080p.mp4
     └── niri_showcase_unixporn_720p.mp4
 ```
@@ -111,6 +115,7 @@ Guías paso a paso para la preparación de dependencias, compilación nativa y c
 - [[01.1 - Paso 1 - Instalacion de niri-edge y key-cli|01.1 — Paso 1: Instalación de niri-edge y key-cli]]: Compilación a nivel de sistema del compositor con minimización y daemon CLI con telemetría de hardware.
 - [[01.2 - Paso 2 - Creacion de Usuario y Login SDDM|01.2 — Paso 2: Creación de Usuario Dedicado y Login SDDM]]: Configuración del gestor de inicio SDDM con tema Catppuccin Mocha y selector interactivo.
 - [[01.3 - Paso 3 - Clavis Shell y Actualizaciones|01.3 — Paso 3: Clavis Shell y Procedimiento de Actualizaciones]]: Suite QML/C++, módulos nativos, demonios de sesión y script de actualización diaria.
+- [[01.4 - Sesion Herald OS en SDDM|01.4 — Sesión Herald OS en SDDM]]: Cómo SDDM reconoce la sesión de Herald OS y su convivencia con Niri + Clavis y Omarchy (sin pasos de instalación).
 
 ---
 
@@ -126,7 +131,7 @@ Integración de temas, recursos visuales, cursores y aplicaciones completas:
 ### 3️⃣ Control de Versiones, Calidad y Mantenimiento
 Control de estado, replicación de configuración y políticas de respaldo:
 - [[03.1 - Dotfiles con dotbare|03.1 — Gestión de Dotfiles con dotbare]]: Control de versiones Git *bare* sobre `$HOME`, auditoría de secretos y script de post-instalación.
-- [[03.2 - Validacion en Usuario Limpio (Testbench)|03.2 — Validación en Usuario Limpio (Testbench)]]: Metodología de control de calidad en cuentas desechables y lista de verificación visual (QA).
+- [[03.2 - Validacion en Usuario Limpio (Testbench)|03.2 — Validación en Usuario Limpio (Testbench)]]: Metodología de control de calidad y lista de verificación visual (QA); testbench persistente `sura` para pruebas visuales sin tocar producción (`niri`).
 - [[03.3 - Snapshots de Home con Btrfs|03.3 — Snapshots de /home con Btrfs]]: Instantáneas CoW locales, transferencias incrementales a discos externos y restauración granular.
 
 ---
@@ -147,7 +152,7 @@ Control de estado, replicación de configuración y políticas de respaldo:
 
 Todos los scripts de este vault son **genéricos e idempotentes**. Por defecto utilizan:
 - **Usuario Objetivo:** `TARGET_USER="${TARGET_USER:-niri}"`
-- **Directorio de Compilación:** `BUILD_DIR="${BUILD_DIR:-$HOME/src}"`
+- **Directorio de Compilación:** `BUILD_DIR="${BUILD_DIR:-/opt/src}"` (propiedad del usuario administrador; el actualizador diario compila como ese usuario)
 - **UID Dinámico:** `$(id -u "$TARGET_USER")`
 - **Rutas de Usuario:** `$HOME` y `~` en lugar de rutas fijas.
 
