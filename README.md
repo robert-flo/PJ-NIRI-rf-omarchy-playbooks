@@ -35,7 +35,8 @@ niri-omarchy-playbooks/
 │   ├── 01.0 - Sudo sin Contrasena (Passwordless Sudo).md
 │   ├── 01.1 - Paso 1 - Instalacion de niri-edge y key-cli.md
 │   ├── 01.2 - Paso 2 - Creacion de Usuario y Login SDDM.md
-│   └── 01.3 - Paso 3 - Clavis Shell y Actualizaciones.md
+│   ├── 01.3 - Paso 3 - Clavis Shell y Actualizaciones.md
+│   └── 01.4 - Sesion Herald OS en SDDM.md
 ├── 02 - Personalizacion y Apariencia/                 # 🎨 Módulo 2: Temas, estilos y aplicaciones
 │   ├── 02.1 - MacTahoe Iconos, Cursor y Wallpapers.md
 │   ├── 02.2 - Replicacion de Aplicaciones y Entorno Clavis.md
@@ -51,7 +52,9 @@ niri-omarchy-playbooks/
 │   ├── 05.1 - Mapa Completo de Atajos de Teclado (Niri y Clavis).md
 │   ├── 05.2 - Repositorios Upstream y Fuentes Externas.md
 │   └── 05.3 - Guia de Descarga e Integracion de Video (Showcase).md
-└── assets/                                            # 🎬 Videos integrados
+└── assets/                                            # 🎬 Videos integrados y parches locales
+    ├── patches/
+    │   └── key-cli-clipboard-daemon.patch             # Añade `key clipboard --daemon` (ver 01.1)
     ├── m2-res_1080p.mp4
     └── niri_showcase_unixporn_720p.mp4
 ```
@@ -65,8 +68,8 @@ Todos los scripts incluidos son **completamente funcionales, reproducibles e ide
 | Variable | Valor por Defecto | Descripción |
 |---|---|---|
 | `TARGET_USER` | `niri` | Nombre de la cuenta de usuario dedicada para el entorno. |
-| `BUILD_DIR` | `$HOME/src` | Directorio donde se compilan las fuentes upstream. |
-| `SRC_DIR` | `/opt/src` | Ubicación permanente de fuentes para scripts de actualización diaria. |
+| `BUILD_DIR` | `/opt/src` | Directorio donde se compilan las fuentes upstream (propiedad del usuario administrador). |
+| `SRC_DIR` | `/opt/src` | Ubicación permanente de fuentes para scripts de actualización diaria (el mismo directorio que `BUILD_DIR`). |
 
 ---
 

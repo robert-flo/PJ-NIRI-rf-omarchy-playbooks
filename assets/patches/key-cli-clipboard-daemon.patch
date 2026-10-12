@@ -1,0 +1,208 @@
+From 8f8a8437773fe52f485d912e86a39ca5a1b92895 Mon Sep 17 00:00:00 2001
+From: Roberto Flores <25asab015@ujmd.edu.sv>
+Date: Mon, 12 Oct 2026 17:43:54 -0600
+Subject: [PATCH] Add key clipboard --daemon
+
+Start the clipboard watcher in the background, like key shell --daemon.
+Prefer clavis-clipboard.service so systemd stays the single owner, fall
+back to a detached key clipboard watch, and do nothing if a watcher
+already holds the lock.
+---
+ src/key_cli/clipboard/backend.py | 53 ++++++++++++++++++++++-
+ src/key_cli/parser.py            |  8 +++-
+ tests/test_clipboard_watcher.py  | 73 ++++++++++++++++++++++++++++++++
+ tests/test_parser.py             |  6 +++
+ 4 files changed, 138 insertions(+), 2 deletions(-)
+
+diff --git a/src/key_cli/clipboard/backend.py b/src/key_cli/clipboard/backend.py
+index 0fe2fb2..30ba967 100644
+--- a/src/key_cli/clipboard/backend.py
++++ b/src/key_cli/clipboard/backend.py
+@@ -14,7 +14,14 @@ from urllib.parse import unquote, urlparse
+ 
+ from . import config
+ 
+-from ..utils.output import DEPENDENCY_FAILURE, GENERAL_FAILURE, Result, error, fail
++from ..utils.output import (
++    DEPENDENCY_FAILURE,
++    GENERAL_FAILURE,
++    USAGE_ERROR,
++    Result,
++    error,
++    fail,
++)
+ from ..utils.executable import current_key_executable
+ from ..utils.file_types import file_mime, theme_icon
+ 
+@@ -628,7 +635,51 @@ def common_payload(command: str, **values) -> dict:
+     }
+ 
+ 
++WATCHER_UNIT = "clavis-clipboard.service"
++
++
++def start_daemon(command: str) -> Result:
++    if watcher_running():
++        return Result(
++            0, command, {"started": False, "via": None}, "clipboard watcher already running"
++        )
++    systemctl = executable("systemctl")
++    if systemctl:
++        # Prefer the user unit so systemd stays the single owner of the watcher.
++        known = subprocess.run(
++            [systemctl, "--user", "cat", WATCHER_UNIT], capture_output=True, check=False
++        )
++        if known.returncode == 0:
++            started = subprocess.run(
++                [systemctl, "--user", "start", WATCHER_UNIT], capture_output=True, check=False
++            )
++            if started.returncode == 0:
++                return Result(
++                    0, command, {"started": True, "via": "systemd"}, f"started {WATCHER_UNIT}"
++                )
++    try:
++        subprocess.Popen(
++            [current_key_executable(), "clipboard", "watch"],
++            stdin=subprocess.DEVNULL,
++            stdout=subprocess.DEVNULL,
++            stderr=subprocess.DEVNULL,
++            start_new_session=True,
++        )
++    except OSError as exc:
++        return fail(command, GENERAL_FAILURE, "watcher_start_failed", str(exc))
++    return Result(0, command, {"started": True, "via": "process"}, "clipboard watcher started")
++
++
+ def run_command(args) -> Result:
++    if args.action is None:
++        if getattr(args, "daemon", False):
++            return start_daemon("clipboard.daemon")
++        return fail(
++            "clipboard",
++            USAGE_ERROR,
++            "clipboard_action_required",
++            "choose a clipboard action or --daemon",
++        )
+     command = f"clipboard.{args.action}"
+     if args.action == "config":
+         return config.run(args.max_items)
+diff --git a/src/key_cli/parser.py b/src/key_cli/parser.py
+index b4f59f7..0c1987d 100644
+--- a/src/key_cli/parser.py
++++ b/src/key_cli/parser.py
+@@ -138,7 +138,13 @@ def build_parser() -> argparse.ArgumentParser:
+     clipboard_parser = commands.add_parser(
+         "clipboard", help="operate on the cliphist clipboard backend"
+     )
+-    clipboard_commands = clipboard_parser.add_subparsers(dest="action", required=True)
++    clipboard_parser.add_argument(
++        "--daemon",
++        "-d",
++        action="store_true",
++        help="start the clipboard watcher in the background if none is running",
++    )
++    clipboard_commands = clipboard_parser.add_subparsers(dest="action")
+     list_parser = clipboard_commands.add_parser("list", help="list clipboard entries")
+     list_parser.add_argument(
+         "--limit", type=int, default=100, help="maximum entries to return (1–750)"
+diff --git a/tests/test_clipboard_watcher.py b/tests/test_clipboard_watcher.py
+index 8b95be7..bd65dcc 100644
+--- a/tests/test_clipboard_watcher.py
++++ b/tests/test_clipboard_watcher.py
+@@ -51,3 +51,76 @@ def test_clipboard_status_has_capabilities_without_watcher(tmp_path, monkeypatch
+         "originalMimePreserved": False,
+     }
+     assert payload["error"]["code"] == "cliphist_watcher_inactive"
++
++
++def daemon_args():
++    return SimpleNamespace(action=None, daemon=True)
++
++
++def test_daemon_is_a_no_op_when_a_watcher_runs(tmp_path, monkeypatch) -> None:
++    monkeypatch.setenv("XDG_RUNTIME_DIR", str(tmp_path))
++    calls = []
++    monkeypatch.setattr(backend.subprocess, "run", lambda *a, **k: calls.append(a))
++    monkeypatch.setattr(backend.subprocess, "Popen", lambda *a, **k: calls.append(a))
++
++    lock = backend.acquire_watcher_lock()
++    try:
++        result = backend.run_command(daemon_args())
++    finally:
++        lock.close()
++
++    assert result.exit_code == 0
++    assert result.json()["started"] is False
++    assert calls == []
++
++
++def test_daemon_prefers_the_systemd_unit(tmp_path, monkeypatch) -> None:
++    monkeypatch.setenv("XDG_RUNTIME_DIR", str(tmp_path))
++    monkeypatch.setattr(backend, "executable", lambda name: f"/usr/bin/{name}")
++    runs = []
++
++    def fake_run(argv, **kwargs):
++        runs.append(argv[1:])
++        return SimpleNamespace(returncode=0)
++
++    monkeypatch.setattr(backend.subprocess, "run", fake_run)
++    monkeypatch.setattr(
++        backend.subprocess, "Popen", lambda *a, **k: pytest.fail("must not spawn a watcher")
++    )
++
++    result = backend.run_command(daemon_args())
++
++    assert result.exit_code == 0
++    assert result.json()["via"] == "systemd"
++    assert runs == [
++        ["--user", "cat", backend.WATCHER_UNIT],
++        ["--user", "start", backend.WATCHER_UNIT],
++    ]
++
++
++def test_daemon_spawns_a_watcher_when_the_unit_cannot_start(tmp_path, monkeypatch) -> None:
++    monkeypatch.setenv("XDG_RUNTIME_DIR", str(tmp_path))
++    monkeypatch.setattr(backend, "executable", lambda name: f"/usr/bin/{name}")
++    monkeypatch.setattr(backend, "current_key_executable", lambda: "/usr/local/bin/key")
++
++    def fake_run(argv, **kwargs):
++        return SimpleNamespace(returncode=0 if argv[2] == "cat" else 1)
++
++    spawned = []
++    monkeypatch.setattr(backend.subprocess, "run", fake_run)
++    monkeypatch.setattr(
++        backend.subprocess, "Popen", lambda argv, **kwargs: spawned.append((argv, kwargs))
++    )
++
++    result = backend.run_command(daemon_args())
++
++    assert result.exit_code == 0
++    assert result.json()["via"] == "process"
++    assert spawned[0][0] == ["/usr/local/bin/key", "clipboard", "watch"]
++    assert spawned[0][1]["start_new_session"] is True
++
++
++def test_clipboard_without_action_or_daemon_is_a_usage_error() -> None:
++    result = backend.run_command(SimpleNamespace(action=None, daemon=False))
++    assert result.exit_code == 2
++    assert result.json()["error"]["code"] == "clipboard_action_required"
+diff --git a/tests/test_parser.py b/tests/test_parser.py
+index b65f00c..0c4cc56 100644
+--- a/tests/test_parser.py
++++ b/tests/test_parser.py
+@@ -65,6 +65,12 @@ def test_clipboard_json_forms_match_qml_commands() -> None:
+     assert store.stdin is True
+ 
+ 
++def test_clipboard_daemon_needs_no_action() -> None:
++    args = build_parser().parse_args(["clipboard", "--daemon"])
++    assert args.daemon is True
++    assert args.action is None
++
++
+ def test_ipc_preserves_argument_array() -> None:
+     args = build_parser().parse_args(["ipc", "call", "keystone", "dashboard", "with spaces"])
+     assert args.target == "keystone"
+-- 
+2.55.0
+
