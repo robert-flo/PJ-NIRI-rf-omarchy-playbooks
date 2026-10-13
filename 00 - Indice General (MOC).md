@@ -53,7 +53,7 @@ flowchart TD
         F --> I["03.1 Dotfiles con dotbare"]
         I --> J["03.2 Testbench en Usuario Limpio"]
         J --> K["03.3 Snapshots de Home con Btrfs"]
-        K -.-> Q["03.4 omarchy-dotfiles (planificado)"]
+        K -.-> Q["03.4 sura-home (gracie)"]
     end
 
     subgraph Fase4["04 - Hardware & Troubleshooting"]
@@ -137,7 +137,7 @@ Control de estado, replicación de configuración y políticas de respaldo:
 - [[03.1 - Dotfiles con dotbare|03.1 — Gestión de Dotfiles con dotbare]]: Control de versiones Git *bare* sobre `$HOME`, auditoría de secretos y script de post-instalación.
 - [[03.2 - Validacion en Usuario Limpio (Testbench)|03.2 — Validación en Usuario Limpio (Testbench)]]: Metodología de control de calidad y lista de verificación visual (QA); testbench persistente `sura` para pruebas visuales sin tocar producción (`niri`).
 - [[03.3 - Snapshots de Home con Btrfs|03.3 — Snapshots de /home con Btrfs]]: Instantáneas CoW locales, transferencias incrementales a discos externos y restauración granular.
-- [[03.4 - Dotfiles de Omarchy para gracie (Planificado)|03.4 — Dotfiles de Omarchy para gracie (Planificado)]]: Repo `omarchy-dotfiles` acordado para una sesión futura; qué versionar y decisiones pendientes.
+- [[03.4 - Dotfiles de Omarchy para gracie (Planificado)|03.4 — Dotfiles de Omarchy para gracie (Planificado)]]: ✅ Hecho como `robert-flo/sura-home` (privado, dotbare); qué versionar y decisiones pendientes.
 
 ---
 
