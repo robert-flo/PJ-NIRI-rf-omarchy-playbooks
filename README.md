@@ -31,6 +31,7 @@ Disfrutarás de navegación por enlaces bidireccionales (`[[wikilinks]]`), diagr
 niri-omarchy-playbooks/
 ├── 00 - Indice General (MOC).md                       # 🗺️ Mapa de Contenidos interactivo con Mermaid
 ├── README.md                                          # 📖 Guía de bienvenida para Obsidian y GitHub
+├── AGENTS.md                                          # 🤖 Reglas para agentes (git, forks, StatIndet)
 ├── 01 - Instalacion Base y Sistema/                   # ⚙️ Módulo 1: Base, compilación y usuarios
 │   ├── 01.0 - Sudo sin Contrasena (Passwordless Sudo).md
 │   ├── 01.1 - Paso 1 - Instalacion de niri-edge y key-cli.md
@@ -45,16 +46,17 @@ niri-omarchy-playbooks/
 ├── 03 - Gestion de Dotfiles y Mantenimiento/          # 📦 Módulo 3: Versionado, pruebas y snapshots
 │   ├── 03.1 - Dotfiles con dotbare.md
 │   ├── 03.2 - Validacion en Usuario Limpio (Testbench).md
-│   └── 03.3 - Snapshots de Home con Btrfs.md
+│   ├── 03.3 - Snapshots de Home con Btrfs.md
+│   └── 03.4 - Dotfiles de Omarchy para gracie (Planificado).md
 ├── 04 - Troubleshooting y Hardware/                   # 🔧 Módulo 4: Solución de problemas
 │   └── 04.1 - Fix Parpadeo Intel i915 (FIFO Underrun & SAGV).md
 ├── 05 - Referencias y Atajos/                         # ⌨️ Módulo 5: Atajos, fuentes y multimedia
 │   ├── 05.1 - Mapa Completo de Atajos de Teclado (Niri y Clavis).md
 │   ├── 05.2 - Repositorios Upstream y Fuentes Externas.md
-│   └── 05.3 - Guia de Descarga e Integracion de Video (Showcase).md
-└── assets/                                            # 🎬 Videos integrados y parches locales
-    ├── patches/
-    │   └── key-cli-clipboard-daemon.patch             # Añade `key clipboard --daemon` (ver 01.1)
+│   ├── 05.3 - Guia de Descarga e Integracion de Video (Showcase).md
+│   └── 05.4 - Archivos de Sistema de Referencia.md
+└── assets/                                            # 🎬 Videos integrados y archivos de sistema
+    ├── system/                                        # Copias exactas de /etc y /usr/local (ver 05.4)
     ├── m2-res_1080p.mp4
     └── niri_showcase_unixporn_720p.mp4
 ```

@@ -53,6 +53,7 @@ flowchart TD
         F --> I["03.1 Dotfiles con dotbare"]
         I --> J["03.2 Testbench en Usuario Limpio"]
         J --> K["03.3 Snapshots de Home con Btrfs"]
+        K -.-> Q["03.4 omarchy-dotfiles (planificado)"]
     end
 
     subgraph Fase4["04 - Hardware & Troubleshooting"]
@@ -63,6 +64,7 @@ flowchart TD
         M["05.1 Mapa de Atajos"]
         N["05.2 Repositorios Upstream"]
         O["05.3 Video Showcase"]
+        R["05.4 Archivos de Sistema"]
     end
 
     classDef default fill:#1e1e2e,stroke:#cba6f7,stroke-width:2px,color:#cdd6f4;
@@ -77,6 +79,7 @@ flowchart TD
 niri-omarchy-playbooks/
 ├── 00 - Indice General (MOC).md                       # 🗺️ Mapa de Contenidos interactivo con Mermaid
 ├── README.md                                          # 📖 Guía de bienvenida para Obsidian y GitHub
+├── AGENTS.md                                          # 🤖 Reglas para agentes (git, forks, StatIndet)
 ├── 01 - Instalacion Base y Sistema/                   # ⚙️ Módulo 1: Base, compilación y usuarios
 │   ├── 01.0 - Sudo sin Contrasena (Passwordless Sudo).md
 │   ├── 01.1 - Paso 1 - Instalacion de niri-edge y key-cli.md
@@ -91,16 +94,17 @@ niri-omarchy-playbooks/
 ├── 03 - Gestion de Dotfiles y Mantenimiento/          # 📦 Módulo 3: Versionado, pruebas y snapshots
 │   ├── 03.1 - Dotfiles con dotbare.md
 │   ├── 03.2 - Validacion en Usuario Limpio (Testbench).md
-│   └── 03.3 - Snapshots de Home con Btrfs.md
+│   ├── 03.3 - Snapshots de Home con Btrfs.md
+│   └── 03.4 - Dotfiles de Omarchy para gracie (Planificado).md
 ├── 04 - Troubleshooting y Hardware/                   # 🔧 Módulo 4: Solución de problemas
 │   └── 04.1 - Fix Parpadeo Intel i915 (FIFO Underrun & SAGV).md
 ├── 05 - Referencias y Atajos/                         # ⌨️ Módulo 5: Atajos, fuentes y multimedia
 │   ├── 05.1 - Mapa Completo de Atajos de Teclado (Niri y Clavis).md
 │   ├── 05.2 - Repositorios Upstream y Fuentes Externas.md
-│   └── 05.3 - Guia de Descarga e Integracion de Video (Showcase).md
-└── assets/                                            # 🎬 Videos integrados y parches locales
-    ├── patches/
-    │   └── key-cli-clipboard-daemon.patch             # Añade `key clipboard --daemon` (ver 01.1)
+│   ├── 05.3 - Guia de Descarga e Integracion de Video (Showcase).md
+│   └── 05.4 - Archivos de Sistema de Referencia.md
+└── assets/                                            # 🎬 Videos integrados y archivos de sistema
+    ├── system/                                        # Copias exactas de /etc y /usr/local (ver 05.4)
     ├── m2-res_1080p.mp4
     └── niri_showcase_unixporn_720p.mp4
 ```
@@ -133,6 +137,7 @@ Control de estado, replicación de configuración y políticas de respaldo:
 - [[03.1 - Dotfiles con dotbare|03.1 — Gestión de Dotfiles con dotbare]]: Control de versiones Git *bare* sobre `$HOME`, auditoría de secretos y script de post-instalación.
 - [[03.2 - Validacion en Usuario Limpio (Testbench)|03.2 — Validación en Usuario Limpio (Testbench)]]: Metodología de control de calidad y lista de verificación visual (QA); testbench persistente `sura` para pruebas visuales sin tocar producción (`niri`).
 - [[03.3 - Snapshots de Home con Btrfs|03.3 — Snapshots de /home con Btrfs]]: Instantáneas CoW locales, transferencias incrementales a discos externos y restauración granular.
+- [[03.4 - Dotfiles de Omarchy para gracie (Planificado)|03.4 — Dotfiles de Omarchy para gracie (Planificado)]]: Repo `omarchy-dotfiles` acordado para una sesión futura; qué versionar y decisiones pendientes.
 
 ---
 
@@ -145,6 +150,7 @@ Control de estado, replicación de configuración y políticas de respaldo:
 - [[05.1 - Mapa Completo de Atajos de Teclado (Niri y Clavis)|05.1 — Mapa Completo de Atajos de Teclado]]: Hoja de referencia rápida de todos los atajos de Quickshell IPC, navegación y control de ventanas en Niri.
 - [[05.2 - Repositorios Upstream y Fuentes Externas|05.2 — Repositorios Upstream y Fuentes Externas]]: Registro de commits, ramas y licencias de los componentes base.
 - [[05.3 - Guia de Descarga e Integracion de Video (Showcase)|05.3 — Video Showcase y Guía de Descarga]]: Instrucciones técnicas de extracción de video con `yt-dlp` y DevTools.
+- [[05.4 - Archivos de Sistema de Referencia|05.4 — Archivos de Sistema de Referencia]]: Copias exactas en `assets/system/` (sudoers, SDDM, actualizador y timer, i915) con instalación y comprobación.
 
 ---
 
