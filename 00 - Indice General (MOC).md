@@ -126,7 +126,7 @@ Guías paso a paso para la preparación de dependencias, compilación nativa y c
 ### 2️⃣ Personalización y Apariencia Visual
 Integración de temas, recursos visuales, cursores y aplicaciones completas:
 - [[02.1 - MacTahoe Iconos, Cursor y Wallpapers|02.1 — MacTahoe: Iconos, Cursor, Wallpaper y Temas GTK]]: Instalación global de la suite MacTahoe y wallpaper oficial Wallhaven 5y3571.
-- [[02.2 - Replicacion de Aplicaciones y Entorno Clavis|02.2 — Replicación de Aplicaciones y Entorno Clavis]]: Configuración de mpv Cupertino, Obsidian Violet, Thunderbird LiquidBird, botones semáforo, animaciones elásticas y colores dinámicos Matugen.
+- [[02.2 - Replicacion de Aplicaciones y Entorno Clavis|02.2 — Replicación de Aplicaciones y Entorno Clavis]]: Configuración de mpv Cupertino, Obsidian Violet, Thunderbird LiquidBird, shells Fish y Zsh (prompt C++), SPlayer-Next, animaciones elásticas y colores dinámicos Matugen.
 - [[02.3 - Tipografias y Fuentes del Sistema|02.3 — Tipografías y Fuentes del Sistema]]: Instalación y jerarquía de LXGW WenKai GB Screen, JetBrainsMono Nerd Font y Material Symbols.
 - [[02.4 - Referencias de Temas, Wallpapers y Recursos|02.4 — Referencias de Temas, Wallpapers y Recursos]]: Enlaces y fuentes oficiales de los activos gráficos.
 
