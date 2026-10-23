@@ -90,7 +90,8 @@ niri-omarchy-playbooks/
 │   ├── 02.1 - MacTahoe Iconos, Cursor y Wallpapers.md
 │   ├── 02.2 - Replicacion de Aplicaciones y Entorno Clavis.md
 │   ├── 02.3 - Tipografias y Fuentes del Sistema.md
-│   └── 02.4 - Referencias de Temas, Wallpapers y Recursos.md
+│   ├── 02.4 - Referencias de Temas, Wallpapers y Recursos.md
+│   └── 02.5 - Entorno Modular Nyxuri (Noctalia Shell).md
 ├── 03 - Gestion de Dotfiles y Mantenimiento/          # 📦 Módulo 3: Versionado, pruebas y snapshots
 │   ├── 03.1 - Dotfiles con dotbare.md
 │   ├── 03.2 - Validacion en Usuario Limpio (Testbench).md
@@ -129,6 +130,7 @@ Integración de temas, recursos visuales, cursores y aplicaciones completas:
 - [[02.2 - Replicacion de Aplicaciones y Entorno Clavis|02.2 — Replicación de Aplicaciones y Entorno Clavis]]: Configuración de mpv Cupertino, Obsidian Violet, Thunderbird LiquidBird, shells Fish y Zsh (prompt C++), SPlayer-Next, animaciones elásticas y colores dinámicos Matugen.
 - [[02.3 - Tipografias y Fuentes del Sistema|02.3 — Tipografías y Fuentes del Sistema]]: Instalación y jerarquía de LXGW WenKai GB Screen, JetBrainsMono Nerd Font y Material Symbols.
 - [[02.4 - Referencias de Temas, Wallpapers y Recursos|02.4 — Referencias de Temas, Wallpapers y Recursos]]: Enlaces y fuentes oficiales de los activos gráficos.
+- [[02.5 - Entorno Modular Nyxuri (Noctalia Shell)|02.5 — Entorno Modular Nyxuri (Noctalia Shell)]]: Sistema desacoplado Niri + Noctalia Shell, display manager Greetd, actualización independiente y desinstalación limpia sin residuos.
 
 ---
 
