@@ -46,7 +46,9 @@ for u in nyxuri nyxuri-test; do
         for unit in $UNITS; do
             sudo -u "$u" -H nyxuri on "$unit" >/dev/null 2>&1 || true
         done
-        echo "      [✓] Unidades de $u actualizadas."
+        # Renderizar plantillas de rutas dinámicas (Pictures/Wallpapers, screenshots, GTK CSS)
+        sudo -u "$u" -H python3 -c "import sys; sys.path.insert(0, '$NYXURI_DIR'); from nyxuri.deploy.templates import _phase_render_templates; _phase_render_templates()" >/dev/null 2>&1 || true
+        echo "      [✓] Unidades y plantillas de $u actualizadas."
     fi
 done
 
