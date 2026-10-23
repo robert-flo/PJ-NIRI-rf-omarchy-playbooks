@@ -40,6 +40,7 @@ flowchart TD
         B --> C["01.2 Paso 2: Usuario & SDDM"]
         C --> D["01.3 Paso 3: Clavis Shell"]
         C -.-> P["01.4 Sesión Herald OS en SDDM"]
+        C --> S["01.5 Paquetes Globales & Navegadores"]
     end
 
     subgraph Fase2["02 - Personalización y Apariencia"]
@@ -85,7 +86,8 @@ niri-omarchy-playbooks/
 │   ├── 01.1 - Paso 1 - Instalacion de niri-edge y key-cli.md
 │   ├── 01.2 - Paso 2 - Creacion de Usuario y Login SDDM.md
 │   ├── 01.3 - Paso 3 - Clavis Shell y Actualizaciones.md
-│   └── 01.4 - Sesion Herald OS en SDDM.md
+│   ├── 01.4 - Sesion Herald OS en SDDM.md
+│   └── 01.5 - Paquetes Globales y Navegadores del Sistema.md
 ├── 02 - Personalizacion y Apariencia/                 # 🎨 Módulo 2: Temas, estilos y aplicaciones
 │   ├── 02.1 - MacTahoe Iconos, Cursor y Wallpapers.md
 │   ├── 02.2 - Replicacion de Aplicaciones y Entorno Clavis.md
@@ -121,6 +123,7 @@ Guías paso a paso para la preparación de dependencias, compilación nativa y c
 - [[01.2 - Paso 2 - Creacion de Usuario y Login SDDM|01.2 — Paso 2: Creación de Usuario Dedicado y Login SDDM]]: Configuración del gestor de inicio SDDM con tema Catppuccin Mocha y selector interactivo.
 - [[01.3 - Paso 3 - Clavis Shell y Actualizaciones|01.3 — Paso 3: Clavis Shell y Procedimiento de Actualizaciones]]: Suite QML/C++, módulos nativos, demonios de sesión y script de actualización diaria.
 - [[01.4 - Sesion Herald OS en SDDM|01.4 — Sesión Herald OS en SDDM]]: Cómo SDDM reconoce la sesión de Herald OS y su convivencia con Niri + Clavis y Omarchy (sin pasos de instalación).
+- [[01.5 - Paquetes Globales y Navegadores del Sistema|01.5 — Paquetes Globales y Navegadores del Sistema]]: Instalación de la suite transversal de herramientas y navegadores (`meld`, `git-delta`, `elio-bin`, Zen, Brave Origin, Edge, Chrome).
 
 ---
 
