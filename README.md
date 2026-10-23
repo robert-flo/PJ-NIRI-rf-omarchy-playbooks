@@ -37,7 +37,8 @@ niri-omarchy-playbooks/
 │   ├── 01.1 - Paso 1 - Instalacion de niri-edge y key-cli.md
 │   ├── 01.2 - Paso 2 - Creacion de Usuario y Login SDDM.md
 │   ├── 01.3 - Paso 3 - Clavis Shell y Actualizaciones.md
-│   └── 01.4 - Sesion Herald OS en SDDM.md
+│   ├── 01.4 - Sesion Herald OS en SDDM.md
+│   └── 01.5 - Paquetes Globales y Navegadores del Sistema.md
 ├── 02 - Personalizacion y Apariencia/                 # 🎨 Módulo 2: Temas, estilos y aplicaciones
 │   ├── 02.1 - MacTahoe Iconos, Cursor y Wallpapers.md
 │   ├── 02.2 - Replicacion de Aplicaciones y Entorno Clavis.md
