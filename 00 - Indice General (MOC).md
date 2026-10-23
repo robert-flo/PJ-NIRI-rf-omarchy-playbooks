@@ -48,6 +48,8 @@ flowchart TD
         E --> F["02.2 Apps Tematizadas (mpv/Obsidian/TB)"]
         F --> G["02.3 Tipografías del Sistema"]
         G --> H["02.4 Enlaces de Recursos"]
+        H --> X["02.5 Nyxuri Noctalia Shell"]
+        X --> Y["02.6 Neovim Dual (Craftzdog & rvim)"]
     end
 
     subgraph Fase3["03 - Dotfiles y Mantenimiento"]
@@ -93,7 +95,8 @@ niri-omarchy-playbooks/
 │   ├── 02.2 - Replicacion de Aplicaciones y Entorno Clavis.md
 │   ├── 02.3 - Tipografias y Fuentes del Sistema.md
 │   ├── 02.4 - Referencias de Temas, Wallpapers y Recursos.md
-│   └── 02.5 - Entorno Modular Nyxuri (Noctalia Shell).md
+│   ├── 02.5 - Entorno Modular Nyxuri (Noctalia Shell).md
+│   └── 02.6 - Configuracion Dual de Neovim (Craftzdog y rvim).md
 ├── 03 - Gestion de Dotfiles y Mantenimiento/          # 📦 Módulo 3: Versionado, pruebas y snapshots
 │   ├── 03.1 - Dotfiles con dotbare.md
 │   ├── 03.2 - Validacion en Usuario Limpio (Testbench).md
@@ -134,6 +137,7 @@ Integración de temas, recursos visuales, cursores y aplicaciones completas:
 - [[02.3 - Tipografias y Fuentes del Sistema|02.3 — Tipografías y Fuentes del Sistema]]: Instalación y jerarquía de LXGW WenKai GB Screen, JetBrainsMono Nerd Font y Material Symbols.
 - [[02.4 - Referencias de Temas, Wallpapers y Recursos|02.4 — Referencias de Temas, Wallpapers y Recursos]]: Enlaces y fuentes oficiales de los activos gráficos.
 - [[02.5 - Entorno Modular Nyxuri (Noctalia Shell)|02.5 — Entorno Modular Nyxuri (Noctalia Shell)]]: Sistema desacoplado Niri + Noctalia Shell, display manager Greetd, actualización independiente y desinstalación limpia sin residuos.
+- [[02.6 - Configuracion Dual de Neovim (Craftzdog y rvim)|02.6 — Configuración Dual de Neovim (Craftzdog y rvim)]]: Entorno dual aislado para todos los usuarios: fork de Craftzdog con `vim.pack` (`nvim`) y distribución propia independiente (`rvim`).
 
 ---
 

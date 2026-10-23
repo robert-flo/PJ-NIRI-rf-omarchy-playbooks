@@ -44,7 +44,8 @@ niri-omarchy-playbooks/
 │   ├── 02.2 - Replicacion de Aplicaciones y Entorno Clavis.md
 │   ├── 02.3 - Tipografias y Fuentes del Sistema.md
 │   ├── 02.4 - Referencias de Temas, Wallpapers y Recursos.md
-│   └── 02.5 - Entorno Modular Nyxuri (Noctalia Shell).md
+│   ├── 02.5 - Entorno Modular Nyxuri (Noctalia Shell).md
+│   └── 02.6 - Configuracion Dual de Neovim (Craftzdog y rvim).md
 ├── 03 - Gestion de Dotfiles y Mantenimiento/          # 📦 Módulo 3: Versionado, pruebas y snapshots
 │   ├── 03.1 - Dotfiles con dotbare.md
 │   ├── 03.2 - Validacion en Usuario Limpio (Testbench).md
