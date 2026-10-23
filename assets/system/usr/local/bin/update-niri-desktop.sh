@@ -41,7 +41,7 @@ fi
 
 # 3. Actualizar quickshell (Clavis Shell)
 if [ -d "$SRC_DIR/quickshell" ]; then
-    echo ">> [3/4] Actualizando Clavis Shell..."
+    echo ">> [3/5] Actualizando Clavis Shell..."
     as_builder "cd '$SRC_DIR/quickshell' && git fetch origin && { git merge --ff-only '@{u}' || echo 'Advertencia: avance rápido no posible; se compila la versión local'; } \
         && { /usr/bin/python3 scripts/release.py bundle-resources --cache /tmp/clavis-cache || true; } \
         && cmake -S . -B build -G Ninja \
@@ -55,8 +55,15 @@ if [ -d "$SRC_DIR/quickshell" ]; then
     cmake --install "$SRC_DIR/quickshell/build"
 fi
 
-# 4. Actualizar paquetes del sistema
-echo ">> [4/4] Verificando paquetes del sistema..."
+# 4. Actualizar clavis-fish-theme
+if [ -d "$SRC_DIR/clavis-fish-theme" ]; then
+    echo ">> [4/5] Actualizando clavis-fish-theme..."
+    as_builder "cd '$SRC_DIR/clavis-fish-theme' && git fetch origin && { git merge --ff-only '@{u}' || echo 'Advertencia: avance rápido no posible; se compila la versión local'; } && cargo build --release --locked"
+    install -Dm755 "$SRC_DIR/clavis-fish-theme/target/release/clavis-fish-theme" /usr/local/bin/clavis-fish-theme
+fi
+
+# 5. Actualizar paquetes del sistema
+echo ">> [5/5] Verificando paquetes del sistema..."
 pacman -Syu --needed --noconfirm
 
 echo "================================================================"
